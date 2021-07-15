@@ -1,11 +1,10 @@
 //-- copyright
 // hbunit is a unit-testing framework for the Harbour language.
 //
-// 
+// Copyright (C) 2020 Visionwin Software S.L. <info _at_ gmail _dot_ com>
 //
 // Based on hbunit from Enderson maia <endersonmaia _at_ gmail _dot_ com>
 // Based on hbunit modified from Manuel Calero Solis in 2019 <manuelcalerosolis _at_ gmail _dot_ com>
-// Based on hbunit modified from Victor Casajuana Mas in 2021 <victor _at_ visionwin _dot_ com>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -36,10 +35,13 @@ CLASS TAssert
       METHOD false( xAct, cMsg )
       METHOD null( xAct, cMsg )
       METHOD notNull( xAct, cMsg )
-   
+      METHOD minor( xExp, xAct, cMsg )
+      METHOD higher( xExp, xAct, cMsg )
 
    PROTECTED:
       METHOD isEqual( xExp, xAct )
+      METHOD isMinor( xExp, xAct )
+      METHOD isHigher( xExp, xAct )
       METHOD assert( xExp, xAct, cMsg, lInvert )
       METHOD fail( cMsg )
       METHOD toStr( xVal, lUseQuote )
@@ -249,17 +251,64 @@ RETURN ( ::assert( nil, xAct , cErrMsg, .t. ) )
 
 //---------------------------------------------------------------------------//
 
-METHOD assert( xExp, xAct, cMsg, lInvert ) CLASS TAssert
+METHOD minor( xExp, xAct, cMsg ) CLASS TAssert
+
+local cErrMsg := ""
+
+   cErrMsg += "Exp: " + ::toStr( xExp, .t. )
+   cErrMsg += ", Act: " + ::toStr( xAct, .t. )
+   cErrMsg += "( " + NoMsg( cMsg ) + " )"
+   
+RETURN ( ::assert( xExp, xAct, cErrMsg, , .t. ) )
+
+//---------------------------------------------------------------------------//
+
+METHOD higher( xExp, xAct, cMsg ) CLASS TAssert
+
+local cErrMsg := ""
+
+   cErrMsg += "Exp: " + ::toStr( xExp, .t. )
+   cErrMsg += ", Act: " + ::toStr( xAct, .t. )
+   cErrMsg += "( " + NoMsg( cMsg ) + " )"
+   
+RETURN ( ::assert( xExp, xAct, cErrMsg, , , .t. ) )
+
+
+//---------------------------------------------------------------------------//
+
+METHOD assert( xExp, xAct, cMsg, lInvert, lminor, lhigher ) CLASS TAssert
 
 local oError
+Local lOk := .F.
 
    if( lInvert == nil, lInvert := .f., )
+   if( lminor == nil, lminor := .f., )
+   if( lhigher == nil, lhigher := .f., )
 
    BEGIN SEQUENCE
 
       ::oResult:oData:incrementAssertCount()
 
-      if ( ( lInvert .and. ::isEqual( xExp, xAct ) ) .or. ( !( lInvert ) .and. ( !( ::isEqual( xExp, xAct ) ) ) ) )
+      If lminor
+
+         lOk := ::isminor( xExp, xAct )
+
+      elseif lhigher
+
+         lOk := ::ishigher( xExp, xAct )
+
+      else
+
+         if ( ( lInvert .and. ::isEqual( xExp, xAct ) ) .or. ( !( lInvert ) .and. ( !( ::isEqual( xExp, xAct ) ) ) ) )
+
+            lOk := .T.
+
+         endif
+
+      endif
+
+      if lOk
+
 
          oError := ::generateerror( NoMsg( cMsg ) )
          ::oResult:oData:addFailure( oError )
@@ -305,6 +354,16 @@ METHOD isEqual( xExp, xAct ) CLASS TAssert
    endcase
 
 RETURN ( lResult )
+
+//---------------------------------------------------------------------------//
+
+METHOD isMinor( xExp, xAct ) CLASS TAssert
+RETURN ( xExp < xAct )
+
+//---------------------------------------------------------------------------//
+
+METHOD isHigher( xExp, xAct ) CLASS TAssert
+RETURN ( xExp > xAct )
 
 //---------------------------------------------------------------------------//
 
@@ -364,7 +423,7 @@ Return nFirstProcedureOutTestAssert
 
 Static Function NoMsg( cMsg )
 
-   hb_default( cMsg, 'sin mensaje' )
+   hb_default( @cMsg, 'sin mensaje' )
 
    If cMsg == Nil
       cMsg := 'sin mensaje'
