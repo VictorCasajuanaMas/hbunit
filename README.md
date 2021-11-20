@@ -36,10 +36,6 @@ See [COPYRIGHT](COPYRIGHT) and [LICENSE](LICENSE) for more details.
 
 hbunit is a unit-testing framework for the Harbour language.
 
-Copyright (C) 2021 Victor Casajuana Mas <victor _at_ visionwin _dot_ com>
-  
-hbunit is a derivative work based on hbunit, whose Copyright follows.
-
 Copyright (C) 2019 Manuel Calero Solis <manuelcalerosolis _at_ gmail _dot_ com>
   
 hbunit is a derivative work based on hbunit, whose Copyright follows.

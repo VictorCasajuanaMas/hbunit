@@ -1,0 +1,13 @@
+# ------------------------- clases de HBUNIT ------------------------------
+# https://github.com/manuelcalerosolis/hbunit
+
+
+C:\si\Trabajo\fwh\visionwin20\siclases\Servicios\Tests\hbunit\TestCase.prg
+C:\si\Trabajo\fwh\visionwin20\siclases\Servicios\Tests\hbunit\TestBase.prg
+C:\si\Trabajo\fwh\visionwin20\siclases\Servicios\Tests\hbunit\TestAssert.prg
+C:\si\Trabajo\fwh\visionwin20\siclases\Servicios\Tests\hbunit\TestResult.prg
+C:\si\Trabajo\fwh\visionwin20\siclases\Servicios\Tests\hbunit\TestResultData.prg
+C:\si\Trabajo\fwh\visionwin20\siclases\Servicios\Tests\hbunit\TestAllSuite.prg
+C:\si\Trabajo\fwh\visionwin20\siclases\Servicios\Tests\hbunit\TestTestRunner.prg
+C:\si\Trabajo\fwh\visionwin20\siclases\Servicios\Tests\hbunit\TestSuite.prg
+C:\si\Trabajo\fwh\visionwin20\siclases\Servicios\Tests\hbunit\TestRunner.prg
